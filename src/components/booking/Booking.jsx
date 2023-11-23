@@ -12,6 +12,7 @@ const Booking = ({tour, avgRating}) => {
 
 
     const {user} = useContext(AuthContext)
+    console.log("context user : ", user)
 
     const [booking, setBooking] = useState({
         userId: user && user._id,
@@ -33,8 +34,6 @@ const Booking = ({tour, avgRating}) => {
     const handleClick = async e =>{
         e.preventDefault()
 
-        console.log(booking);
-
         try {
             if(!user || user == undefined || user == null){
                 return alert('Please Login')
@@ -43,7 +42,8 @@ const Booking = ({tour, avgRating}) => {
             const res = await fetch(`${BASE_URL}/booking`,{
                 method:"POST",
                 headers:{
-                    "Content-Type":"application/json"
+                    "Content-Type":"application/json",
+                    token: user.token
                 },
                 credentials:'include',
                 body:JSON.stringify(booking)
